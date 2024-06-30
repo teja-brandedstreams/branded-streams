@@ -1,0 +1,58 @@
+.form {
+    background-color: var(--bgSoft);
+    padding: 50px;
+    border-radius: 10px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.brandLogo {
+    margin-bottom: 20px;
+    width: auto;
+}
+
+.form input,
+.form select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #2e374a;
+    border-radius: 5px;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+.formItem {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.formItem span {
+    color: orange;
+}
+
+.form button {
+    width: 25%;
+    padding: 15px;
+    background-color: var(---brandedActionColor);
+    color: var(--text);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.actionButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.actionButtons a {
+    color: var(---brandedActionColor);
+}
