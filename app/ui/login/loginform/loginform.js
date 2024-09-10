@@ -8,7 +8,7 @@ export default async function LoginForm() {
 
     return (
         <div className={styles.container}>
-            <form className={styles.form}>
+            <form className={styles.form} action={authenticate}>
                 <Image alt="branded-streams-logo" className={styles.brandLogo} src={"/BrandedStreams_OrangeLogo.png"} width={250} height={75} />
                 <h1>Login</h1>
                 <div className={styles.formItem}>

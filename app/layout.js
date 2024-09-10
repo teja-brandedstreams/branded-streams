@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google';
+import "bootstrap/dist/css/bootstrap.min.css";
 import './ui/globals.css';
 import Head from 'next/head';
 
@@ -15,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Head>
         <style>
-          @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+          @import url(`https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap`);
         </style>
       </Head>
       <body className={inter.className}>{children}</body>

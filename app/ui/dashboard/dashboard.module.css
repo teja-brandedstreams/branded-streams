@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    gap: 10px;
+}
+
+.menu {
+    flex: 1;
+    background-color: var(--bgSoft);
+    min-height: 100vh;
+}
+
+.content {
+    flex: 4;
+}
+
+.scriptsTable {
+    flex: 4;
+}
+
+.rightContent {
+    flex: 2;
+}
+
+.noDataSection {
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    background-color: var(--bgSoft);
+}
+
+.scriptsTable {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--bgSoft);
+}
+
+.modalHeader,
+.modalBody {
+    background-color: var(--bgSoft);
+}
+
+
+.dataTable {
+    --bs-table-bg: var(--bgSoft);
+}

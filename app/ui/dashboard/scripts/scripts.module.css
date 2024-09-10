@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+}
+
+.leftContent {
+    flex: 5;
+}
+
+.uploadScriptSection {
+    background-color: var(--bgSoft);
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex: 5;
+}
+
+.rightContent {
+    flex: 2;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.uploadScript {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--textSoft);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.scriptsTable {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--bgSoft);
+}
+
+.modalHeader,
+.modalBody {
+    background-color: var(--bgSoft);
+}
+
+
+.dataTable {
+    --bs-table-bg: var(--bgSoft);
+}
+
+.section {
+    display: flex;
+}

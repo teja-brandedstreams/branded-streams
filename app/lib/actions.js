@@ -1,10 +1,10 @@
+"use server"
 import { signIn } from "../auth";
 import { User } from "./models";
 import connectToDB from "./utils";
 import bcrypt from "bcrypt";
 
 export const addUser = async (formData) => {
-    "use server"
     const { firstname, lastname, email, password, type } = Object.fromEntries(formData);
 
     try {
@@ -27,13 +27,15 @@ export const addUser = async (formData) => {
 }
 
 export const authenticate = async (formData) => {
-    "use server"
     const { username, password } = Object.fromEntries(formData);
-    console.log("Details...", username, password);
+
     try {
+        console.log("Username..", username, "Password...", password);
         await signIn("credentials", { username, password });
-    } catch (Err) {
-        console.log(Err);
-        throw Err;
+    } catch (err) {
+        if (err.message.includes("CredentialsSignin")) {
+            return "Wrong Credentials";
+        }
+        throw err;
     }
-}
+};
