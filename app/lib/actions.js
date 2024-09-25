@@ -1,29 +1,25 @@
-"use server"
+"use server";
 import { signIn } from "../auth";
-import { User } from "./models";
-import connectToDB from "./utils";
 import bcrypt from "bcrypt";
 
 export const addUser = async (formData) => {
+    console.log("Add user");
     const { firstname, lastname, email, password, type } = Object.fromEntries(formData);
-
-    try {
-        connectToDB();
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        const newUser = new User({
-            firstname,
-            lastname,
+    console.log("Signup user");
+    const response = await fetch(process.env.URL + '/api/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
             email,
-            password: hashedPassword,
-            type
-        });
-        await newUser.save();
+            password,
+            userType: type,
+        }),
+    });
 
-    } catch (Err) {
-        console.log(Err);
-    }
+    const result = await response.json();
+    console.log(result);
 }
 
 export const authenticate = async (formData) => {

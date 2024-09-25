@@ -1,8 +1,9 @@
+"use server";
 import Image from "next/image";
 import styles from "./signupform.module.css";
 import Link from "next/link";
 import { addUser } from "@/app/lib/actions";
-export default function SignupForm() {
+export default async function SignupForm() {
     return (
         <div className={styles.container}>
             <form className={styles.form} autoComplete="off" action={addUser}>
