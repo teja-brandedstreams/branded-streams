@@ -1,11 +1,25 @@
+"use client"
 import { menuItems } from "@/app/lib/data/staticData";
 import styles from "./sidebar.module.css";
 import { FaRegUser } from "react-icons/fa";
 import MenuLink from "./menulink/menulink";
-import { signOut } from "@/app/auth";
+// import { signOut } from "@/app/auth";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
+
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Sidebar() {
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        try {
+            await signOut({ redirect: true, callbackUrl: '/login' }); // Redirect after logout
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
 
     return (
         <div className={styles.container}>
@@ -16,25 +30,24 @@ export default function Sidebar() {
             <div className={styles.menu}>
                 <ul className={styles.list}>
                     {menuItems.map((cat) => (
-                        <li key={cat.title}>
+                        <li key={uuidv4()}>
                             <span className={styles.cat}>{cat.page}</span>
                             {cat.list.map((item) => (
-                                <MenuLink item={item} key={item.title} />
+                                <MenuLink item={item} key={uuidv4()} />
                             ))}
                         </li>
                     ))}
                 </ul>
-                <form
+                {/* <form
                     action={async () => {
-                        "use server";
-                        await signOut();
+                        await signOut({ redirect: true, callbackUrl: '/' }); // Redirect to home after logout
                     }}
-                >
-                    <button className={styles.logout}>
-                        <RiLogoutBoxRLine />
-                        Logout
-                    </button>
-                </form>
+                > */}
+                <button className={styles.logout} onClick={handleLogout}>
+                    <RiLogoutBoxRLine />
+                    Logout
+                </button>
+                {/* </form> */}
             </div>
         </div>
     )

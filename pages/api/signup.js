@@ -2,6 +2,7 @@
 // pages/api/signup.js
 import sql from 'mssql';
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from 'uuid';
 
 const config = {
     user: process.env.AZURE_SQL_USER,
@@ -27,10 +28,11 @@ export default async function signup(req, res) {
 
             // Insert user into the database
             await pool.request()
+                .input('userUId', sql.NVarChar, uuidv4())
                 .input('email', sql.NVarChar, email)
                 .input('passwordHash', sql.NVarChar, hashedPassword)
                 .input('userType', sql.NVarChar, userType)
-                .query(`INSERT INTO Users (Email, PasswordHash, UserType) VALUES (@email, @passwordHash, @userType)`);
+                .query(`INSERT INTO Users (UserUId, Email, PasswordHash, UserType) VALUES (@userUId, @email, @passwordHash, @userType)`);
 
             res.status(200).json({ message: 'User signed up successfully!' });
         } catch (error) {
