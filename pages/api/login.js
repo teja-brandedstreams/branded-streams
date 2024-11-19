@@ -2,6 +2,10 @@
 import sql from 'mssql';
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import { verifyToken } from './verifyToken';
+import cookie from 'cookie';
+import { setCookie } from 'cookies-next';
+
 
 const config = {
     user: process.env.AZURE_SQL_USER,
@@ -13,7 +17,9 @@ const config = {
     },
 };
 
+
 export default async function login(req, res) {
+
     if (req.method === 'POST') {
         const { email, password } = req.body;
 
@@ -32,6 +38,8 @@ export default async function login(req, res) {
                 return res.status(401).json({ error: 'Invalid email or password' });
             }
 
+            console.log("user...", user);
+
             // Compare password with stored hashed password
             const isMatch = await bcrypt.compare(password, user.PasswordHash);
 
@@ -41,13 +49,10 @@ export default async function login(req, res) {
 
             // Create JWT token (sign with a secret key, make sure to store it securely in env)
             const token = jwt.sign(
-                { userId: user.UserUId, email: user.Email, userType: user.UserType },
+                { userId: user.UserUID, email: user.Email, userType: user.UserType, firstName: user.FirstName, lastName: user.LastName },
                 process.env.JWT_SECRET, // Store secret securely
-                { expiresIn: '1h' } // Set token expiry
+                { expiresIn: '1d' } // Set token expiry
             );
-
-            // Set token in HTTP-only cookie (for security)
-            res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600`);
 
             return res.status(200).json({ message: 'Login successful', token });
         } catch (error) {

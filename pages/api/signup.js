@@ -15,10 +15,10 @@ const config = {
 };
 
 export default async function signup(req, res) {
-    console.log("Signup");
+    // console.log("Signup");
     if (req.method === 'POST') {
-        const { email, password, userType } = req.body;
-
+        const { firstname, lastname, email, password, userType } = req.body;
+        console.log("Body,...", req.body);
         try {
             // Hash the password for security (bcrypt or similar can be used)
             const hashedPassword = await bcrypt.hash(password, 10);// Replace with actual hash function
@@ -30,9 +30,11 @@ export default async function signup(req, res) {
             await pool.request()
                 .input('userUId', sql.NVarChar, uuidv4())
                 .input('email', sql.NVarChar, email)
+                .input('firstname', sql.NVarChar, firstname)
+                .input('lastname', sql.NVarChar, lastname)
                 .input('passwordHash', sql.NVarChar, hashedPassword)
                 .input('userType', sql.NVarChar, userType)
-                .query(`INSERT INTO Users (UserUId, Email, PasswordHash, UserType) VALUES (@userUId, @email, @passwordHash, @userType)`);
+                .query(`INSERT INTO Users (UserUId, Email, PasswordHash, UserType, FirstName, LastName) VALUES (@userUId, @email, @passwordHash, @usertype, @firstname, @lastname)`);
 
             res.status(200).json({ message: 'User signed up successfully!' });
         } catch (error) {

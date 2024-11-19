@@ -8,10 +8,12 @@ import Form from 'react-bootstrap/Form';
 import Card from "@/app/ui/dashboard/card/card";
 import { Button, Dropdown, DropdownButton, Modal, Table } from "react-bootstrap";
 import { uploadScript } from "@/app/lib/actions";
+import axios from "axios";
 
 
 export default function Scripts() {
     const [showModal, setShowModal] = useState(false);
+    const [handleSuccessfulModal, setHandleSuccessfulModal] = useState(false);
     const scriptName = useRef();
     const fileName = useRef();
     const { cardsData } = useStore();
@@ -23,6 +25,10 @@ export default function Scripts() {
         setShowModal(false);
     };
 
+    const handleSuccessCloseModal = () => {
+        setHandleSuccessfulModal(false);
+    }
+
     const handleScriptUpload = async () => {
         const formData = new FormData();
         const file = fileName.current.files[0]; // Get the single file
@@ -32,28 +38,17 @@ export default function Scripts() {
             return;
         }
 
-        console.log('File to upload:', file); // Log the file
 
         formData.append('file', file); // Append the file
         // Append other fields as necessary
         formData.append('user_file_name', scriptName.current.value);
         formData.append('user_content_type', 1);
-        formData.append('user_id', '15c4ed8e-bf32-4cc7-9651-28dc44c747a0');
-
-        // Log FormData entries
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
-        const obj = {
-            file: fileName.current.files[0],
-            user_file_name: scriptName.current.value,
-            user_content_type: 1,
-            user_id: '15c4ed8e-bf32-4cc7-9651-28dc44c747a0'
-        }
-
         const result = await uploadScript(formData);
         console.log(result);
+        if (result) {
+            setShowModal(false);
+            setHandleSuccessfulModal(true);
+        }
     }
 
     return (
@@ -122,6 +117,20 @@ export default function Scripts() {
                     <Card card={card} key={card.title} />
                 ))}
             </div>
+
+            <Modal show={handleSuccessfulModal} onHide={handleSuccessCloseModal} backdrop="static" className={styles.uploadModal}>
+                <Modal.Header className={styles.modalHeader} closeButton>
+                    <Modal.Title>Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={styles.modalBody}>
+                    <div>Script uploaded successfully!!</div>
+                </Modal.Body>
+                <Modal.Footer className={styles.modalHeader}>
+                    <Button variant="secondary" onClick={handleSuccessCloseModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
             <Modal show={showModal} onHide={handleCloseModal} backdrop="static" className={styles.uploadModal}>
                 <Modal.Header className={styles.modalHeader} closeButton>

@@ -4,6 +4,7 @@ export function authenticateToken(req, res, next) {
     const token = req.cookies.token; // Get token from cookies
 
     if (!token) {
+
         return res.status(401).json({ error: 'Unauthorized' });
     }
 

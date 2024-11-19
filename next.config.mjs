@@ -6,6 +6,7 @@ const nextConfig = {
         loader: 'custom',
         loaderFile: './my-loader.ts',
     },
+    reactStrictMode: true,
 };
 
 export default nextConfig;
