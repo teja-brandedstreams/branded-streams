@@ -1,31 +1,36 @@
-"use client"
+"use server"
 import { menuItems } from "@/app/lib/data/staticData";
 import styles from "./sidebar.module.css";
 import { FaRegUser } from "react-icons/fa";
 import MenuLink from "./menulink/menulink";
 // import { signOut } from "@/app/auth";
-import { RiLogoutBoxRLine } from "react-icons/ri";
+
 import { signOut } from "next-auth/react";
-import { useRouter } from 'next/navigation';
 
 import { v4 as uuidv4 } from 'uuid';
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import LogoutButton from "./logoutButton";
+import { redirect } from "next/navigation";
 
-export default function Sidebar() {
-    const router = useRouter();
-
-    const handleLogout = async () => {
-        try {
-            await signOut({ redirect: true, callbackUrl: '/login' }); // Redirect after logout
-        } catch (error) {
-            console.error('Logout error:', error);
+export default async function Sidebar() {
+    let decoded;
+    try {
+        const cookieStore = cookies(); // Get the cookies object
+        const token = cookieStore.get('bstreams')?.value;
+        decoded = jwt && jwt.verify(token, process.env.JWT_SECRET);
+        if (!decoded) {
+            redirect("/login");
         }
-    };
+    } catch (err) {
+        redirect("/login");
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.userSection}>
                 <FaRegUser />
-                John Cena
+                {decoded && decoded.firstName} {decoded && decoded.lastName}
             </div>
             <div className={styles.menu}>
                 <ul className={styles.list}>
@@ -43,10 +48,8 @@ export default function Sidebar() {
                         await signOut({ redirect: true, callbackUrl: '/' }); // Redirect to home after logout
                     }}
                 > */}
-                <button className={styles.logout} onClick={handleLogout}>
-                    <RiLogoutBoxRLine />
-                    Logout
-                </button>
+                <LogoutButton />
+
                 {/* </form> */}
             </div>
         </div>

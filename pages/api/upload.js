@@ -1,64 +1,63 @@
+"use server"
+import fetch from 'node-fetch';
 import { IncomingForm } from 'formidable';
+import FormData from 'form-data';
+import { cookies } from 'next/headers';
+import fs from "fs";
+import { getIronSession } from 'iron-session';
+import { sessionOptions } from '@/app/lib/session';
+import { getCookie } from 'cookies-next';
 
-// Disable the default body parser in Next.js
 export const config = {
     api: {
-        bodyParser: false, // Disable default body parser to handle multipart/form-data
+        bodyParser: false, // Disable body parsing to handle the file manually
     },
 };
 
 export default async function upload(req, res) {
-    console.log('API route hit'); // Log when the route is hit
-
     if (req.method === 'POST') {
-        const form = new IncomingForm(); // Create a new IncomingForm instance
+        const form = new IncomingForm();
+        // authenticateToken(req, res, () => {
+        //     // Proceed with the route logic after token verification
+        //     console.log("user... ", req.user);
+        //     // res.status(200).json({ message: 'You have access to this protected route', user: req.user });
+        // });
 
-        // Parse the incoming request
         form.parse(req, async (err, fields, files) => {
             if (err) {
-                console.error('Error parsing FormData:', err);
-                return res.status(500).json({ success: false, message: 'Error parsing FormData' });
+                console.error('Error parsing form:', err);
+                return res.status(500).json({ message: 'File parsing error' });
             }
 
-            // Log the parsed fields and files
-            console.log('Parsed fields:', fields); // Log all fields received
-            console.log('Parsed files:', files);   // Log all files received
-
-            // Access the specific file using the key 'file'
-            const file = files.file; // Make sure this key matches what you used in formData.append('file', ...)
-
-            // Check if the file was received correctly
-            if (!file || Array.isArray(file)) {
-                console.error('Expected a single file but received:', file);
-                return res.status(400).json({ success: false, message: 'No valid file uploaded' });
-            }
-
-            // Proceed with your logic here
+            // Access the uploaded file's buffer
+            // const fileBuffer = files.file[0].buffer; // If formidable has configured to use buffers
+            const fileBuffer = fs.readFileSync(files?.file[0]?.filepath);
+            const originalFilename = files.file[0].originalFilename;
             try {
-                // Optionally, you can now send the file to an external API or process it
-                const response = await fetch('https://scriptsassistantv3.azurewebsites.net/api/upload', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        // Include necessary data from fields and the file path
-                        file,
-                        user_file_name: fields.user_file_name,
-                        user_content_type: fields.user_content_type,
-                        user_id: fields.user_id,
-                        // You can include file details here if needed
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json', // Adjust the content type as needed
-                    },
-                });
+                const formData = new FormData();
+                formData.append('file', fileBuffer, originalFilename);
+                formData.append('user_file_name', fields.user_file_name[0]);
+                formData.append('user_content_type', fields.user_content_type[0]);
+                formData.append('user_id', fields.user_id[0]);
 
-                const data = await response.json();
-                res.status(200).json({ success: true, data }); // Send the response back to the client
+                const response = await fetch('https://scriptsassistantv5.azurewebsites.net/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+                console.log("Uploaded response...", response);
+
+                if (response.ok) {
+                    res.status(200).json({ message: 'File uploaded successfully!' });
+                } else {
+                    console.log("response...", response);
+                    // res.status(500).json({ message: 'Error uploading file to external endpoint.' });
+                }
             } catch (error) {
-                console.error('Error processing the file:', error);
-                res.status(500).json({ success: false, message: error.message });
+                console.error('Error forwarding file:', error);
+                res.status(500).json({ message: 'Server error.' });
             }
         });
     } else {
-        res.status(405).json({ error: 'Method not allowed' }); // Handle non-POST requests
+        res.status(405).json({ message: 'Method not allowed' });
     }
 }
