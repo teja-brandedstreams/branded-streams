@@ -40,7 +40,7 @@ export default async function upload(req, res) {
                 formData.append('user_content_type', fields.user_content_type[0]);
                 formData.append('user_id', fields.user_id[0]);
 
-                const response = await fetch('https://scriptsassistantv5.azurewebsites.net/api/upload', {
+                const response = await fetch(`${process.env.AZURE_FUNC_URL}/api/upload`, {
                     method: 'POST',
                     body: formData,
                 });

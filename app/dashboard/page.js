@@ -4,10 +4,20 @@ import useStore from "../store/brandedStreamsStore";
 import styles from "../ui/dashboard/dashboard.module.css";
 import Card from "../ui/dashboard/card/card";
 import { Dropdown, DropdownButton, Table } from "react-bootstrap";
+import { useEffect } from "react";
+import { getScriptDetails } from "../lib/actions";
 
 
 export default function Dashboard() {
     const { noData, cardsData } = useStore();
+    useEffect(() => {
+        someFunction();
+    }, []);
+    async function someFunction() {
+        const result = await getScriptDetails();
+        console.log("result..", result);
+    }
+
     return (
         <div className={styles.container}>
             {/* {

@@ -32,7 +32,7 @@ export default function LoginForm() {
         <div className={styles.container}>
             <SpinnerOverlay loading={overlay} />
             <form className={styles.form} onSubmit={handleSubmit}>
-                <Image alt="branded-streams-logo" className={styles.brandLogo} src={"/BrandedStreams_OrangeLogo.png"} width={250} height={75} />
+                <Image alt="branded-streams-logo" className={styles.brandLogo} src="/BrandedStreams_OrangeLogo.png" width={250} height={75} />
                 <h1>Login</h1>
                 <div className={styles.formItem}>
                     <label htmlFor="email">Email <span>*</span></label>

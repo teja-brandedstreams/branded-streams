@@ -90,3 +90,20 @@ export const uploadScript = async (formData) => {
     }
 }
 
+export const getScriptDetails = async () => {
+    const cookieStore = cookies(); // Get the cookies object
+    const token = cookieStore.get('bstreams')?.value;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded..", decoded);
+    const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.URL : 'http://localhost:3000';
+    try {
+        const response = await axios.get(BASE_URL + '/api/getScripts', {
+            params: {
+                userId: decoded.userId
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error geting script details file:", error);
+    }
+}
