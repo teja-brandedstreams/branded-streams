@@ -15,10 +15,10 @@ const config = {
 };
 
 export default async function signup(req, res) {
-    // console.log("Signup");
+    // ("Signup");
     if (req.method === 'POST') {
         const { firstname, lastname, email, password, userType } = req.body;
-        console.log("Body,...", req.body);
+        ("Body,...", req.body);
         try {
             // Hash the password for security (bcrypt or similar can be used)
             const hashedPassword = await bcrypt.hash(password, 10);// Replace with actual hash function

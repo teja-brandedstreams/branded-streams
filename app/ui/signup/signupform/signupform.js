@@ -35,7 +35,7 @@ export default function SignupForm() {
                 <h1>Signup</h1>
                 <div className={`${styles.formItem} ${styles.nameSection}`}>
                     <div>
-                        <label htmlFor="firstname">First Name1 <span>*</span></label>
+                        <label htmlFor="firstname">First Name <span>*</span></label>
                         <input type="text" placeholder="First Name" name="firstname" autoComplete="off" id="firstname" required ref={firstName} />
                     </div>
                     <div>

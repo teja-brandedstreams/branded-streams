@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const useStore = create((set) => ({
+const brandedStreamsStore = create((set) => ({
     cardsData: [
         {
             title: "Available Now Hurry up!!",
@@ -23,6 +23,10 @@ const useStore = create((set) => ({
             actionURL: "/dashboard/scripts"
         }
     ],
+    userData: {
+        firstName: '',
+        lastName: ''
+    },
     scripts: [
         {
             name: "The past life",
@@ -62,7 +66,7 @@ const useStore = create((set) => ({
         }
     ],
     increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-    removeAllBears: () => set({ bears: 0 }),
+    setData: (newDetails) => set({ userData: newDetails })
 }));
 
-export default useStore;
+export default brandedStreamsStore;

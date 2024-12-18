@@ -6,7 +6,7 @@ export default function authenticateToken(req, res, next) {
         // Extract token from cookies
         const cookies = req.headers.cookie && cookie.parse(req.headers.cookie);
         const token = cookies?.token;
-        console.log("...token", token);
+        ("...token", token);
         if (!token) throw new Error('Unauthorized');
         // Verify and decode token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

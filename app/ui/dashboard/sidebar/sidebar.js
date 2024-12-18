@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import LogoutButton from "./logoutButton";
 import { redirect } from "next/navigation";
+import { useStore } from "zustand";
 
 export default async function Sidebar() {
     let decoded;

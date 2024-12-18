@@ -29,7 +29,7 @@ export const addUser = async (formData) => {
         return { success: false };
     }
 
-    // console.log(result);
+    // (result);
 }
 
 export const authenticate = async (formData) => {
@@ -37,7 +37,7 @@ export const authenticate = async (formData) => {
     // const router = useRouter();
     const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.URL : 'http://localhost:3000';
 
-    // console.log("process.env.URL..", BASE_URL);
+    // ("process.env.URL..", BASE_URL);
 
     try {
         const response = await fetch(BASE_URL + '/api/login', {
@@ -80,11 +80,11 @@ export const uploadScript = async (formData) => {
     try {
         const response = await axios.post(BASE_URL + '/api/upload', formDataNew, {
             onUploadProgress: (progressEvent) => {
-                // console.log("Progress..");
+                // ("Progress..");
             },
         });
         return response.data;
-        // console.log("File uploaded successfully:", response.data);
+        // ("File uploaded successfully:", response.data);
     } catch (error) {
         console.error("Error uploading file:", error);
     }
@@ -94,7 +94,7 @@ export const getScriptDetails = async () => {
     const cookieStore = cookies(); // Get the cookies object
     const token = cookieStore.get('bstreams')?.value;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded..", decoded);
+    ("Decoded..", decoded);
     const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.URL : 'http://localhost:3000';
     try {
         const response = await axios.get(BASE_URL + '/api/getScripts', {
@@ -102,6 +102,7 @@ export const getScriptDetails = async () => {
                 userId: decoded.userId
             }
         });
+        ("Response...", response);
         return response.data;
     } catch (error) {
         console.error("Error geting script details file:", error);

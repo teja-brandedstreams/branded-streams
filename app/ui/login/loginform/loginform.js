@@ -24,7 +24,9 @@ export default function LoginForm() {
             router.push('/dashboard/scripts'); // Redirect on success
             setOverlay(false);
         } else {
-            console.log(result); // Show error message
+            setOverlay(false);
+            alert('Unable to login, invalid email or password, Please try again!');
+            (result); // Show error message
         }
     };
 

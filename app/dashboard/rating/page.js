@@ -9,7 +9,7 @@ import Card from "@/app/ui/dashboard/card/card";
 import { Button, Dropdown, DropdownButton, Modal, Table } from "react-bootstrap";
 
 
-export default function Scripts() {
+export default function Rating() {
     const [showModal, setShowModal] = useState(false);
     const { cardsData } = useStore();
     const handleButtonClick = () => {

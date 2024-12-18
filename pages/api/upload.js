@@ -19,7 +19,7 @@ export default async function upload(req, res) {
         const form = new IncomingForm();
         // authenticateToken(req, res, () => {
         //     // Proceed with the route logic after token verification
-        //     console.log("user... ", req.user);
+        //     ("user... ", req.user);
         //     // res.status(200).json({ message: 'You have access to this protected route', user: req.user });
         // });
 
@@ -44,13 +44,13 @@ export default async function upload(req, res) {
                     method: 'POST',
                     body: formData,
                 });
-                console.log("Uploaded response...", response);
+                ("Uploaded response...", response);
 
                 if (response.ok) {
                     res.status(200).json({ message: 'File uploaded successfully!' });
                 } else {
-                    console.log("response...", response);
-                    // res.status(500).json({ message: 'Error uploading file to external endpoint.' });
+                    ("response...", response);
+                    res.status(500).json({ message: 'Error uploading file to external endpoint.' });
                 }
             } catch (error) {
                 console.error('Error forwarding file:', error);

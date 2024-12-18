@@ -8,16 +8,16 @@ import { TbFileReport } from "react-icons/tb";
 
 
 export const menuItems = [
-    {
-        page: "Home",
-        list: [
-            {
-                title: "Dashboard",
-                link: "/dashboard",
-                icon: <TfiWrite />
-            }
-        ]
-    },
+    // {
+    //     page: "Home",
+    //     list: [
+    //         {
+    //             title: "Dashboard",
+    //             link: "/dashboard",
+    //             icon: <TfiWrite />
+    //         }
+    //     ]
+    // },
     {
         page: "Scripts",
         list: [

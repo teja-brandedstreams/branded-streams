@@ -38,7 +38,7 @@ export default async function login(req, res) {
                 return res.status(401).json({ error: 'Invalid email or password' });
             }
 
-            console.log("user...", user);
+            ("user...", user);
 
             // Compare password with stored hashed password
             const isMatch = await bcrypt.compare(password, user.PasswordHash);
@@ -54,10 +54,10 @@ export default async function login(req, res) {
                 { expiresIn: '1d' } // Set token expiry
             );
 
-            return res.status(200).json({ message: 'Login successful', token });
+            res.status(200).json({ message: 'Login successful', token });
         } catch (error) {
             console.error('Error logging in user:', error);
-            return res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: 'Internal server error' });
         }
     } else {
         res.status(405).json({ error: 'Method not allowed' });

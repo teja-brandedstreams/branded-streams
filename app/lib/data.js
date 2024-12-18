@@ -7,7 +7,7 @@ export const fetchUsers = async () => {
         const users = await User.find();
         return users;
     } catch (err) {
-        // console.log(err);
+        // (err);
         throw new Error(err);
     }
 }
